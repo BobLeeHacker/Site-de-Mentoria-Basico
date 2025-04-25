@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mentoria Ayrton Ponda</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    body {
+      background: #f8fafc;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    .main-banner {
+      position: relative;
+      background: linear-gradient(90deg, #1157c9 70%, #1976d2 100%);
+      color: #fff;
+      text-align: center;
+      padding: 60px 0 40px 0;
+      overflow: hidden;
+    }
+    .ap-logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      margin-bottom: 14px;
+      position: relative;
+      z-index: 3;
+    }
+    .logo-svg {
+      width: 58px;
+      height: 58px;
+      border-radius: 16px;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 12px 2px #1976d252;
+    }
+    .logo-text {
+      font-size: 2.1rem;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 2.5px;
+      text-shadow: 1px 1px 8px #1976d288;
+    }
+    .profile-img { display: none; }
+    .avatar-bg {
+      position: absolute;
+      right: 10vw;
+      top: 10px;
+      width: 220px;
+      height: 220px;
+      opacity: 0.13;
+      z-index:1;
+      pointer-events:none;
+      animation: floatAvatar 3s ease-in-out infinite alternate;
+    }
+    @keyframes floatAvatar {
+      0% { transform: translateY(0) scale(1); }
+      100% { transform: translateY(24px) scale(1.05); }
+    }
+    .animated-langs {
+      margin-top: 18px;
+      min-height: 50px;
+      font-size: 1.2rem;
+      font-weight: 500;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .langs-logos {
+      margin-left: 12px;
+      display: flex;
+      gap:15px;
+      align-items: center;
+    }
+    .langs-logos i, .langs-logos img {
+      font-size: 2.2rem;
+      animation: floatLogo 2.3s ease-in-out infinite alternate;
+      color: #ffcc00;
+    }
+    .langs-logos img {
+      height: 30px;
+      width: 30px;
+      vertical-align:middle;
+    }
+    @keyframes floatLogo {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-8px); }
+    }
+    .login-btn {
+      position: absolute;
+      top: 18px;
+      right: 24px;
+      z-index: 9;
+      background: rgba(255,255,255,0.12);
+      color: #fff;
+      border: 1.5px solid #fff;
+      border-radius: 32px;
+      padding: 6px 24px;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+    .login-btn:hover { background: #1565c070; color: #fff;}
+    section { padding: 48px 0; }
+    .blue-title { color: #1565c0; font-weight: bold; letter-spacing: 1px; }
+    .social-links a { margin: 0 12px; color: #1976d2; font-size: 1.6rem; }
+    .social-links a:hover {color: #004ba0;}
+    .card { box-shadow: 0 2px 14px 2px #e9e9e9; }
+    /* Serviços */
+    .services-row .service-icon {
+      width: 56px; height: 56px;
+      background: #f5f8ff;
+      color: #1976d2;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 50%;
+      font-size: 2rem;
+      margin-right: 16px;
+      box-shadow: 0 2px 8px #1976d20e;
+    }
+    .services-row .service-col { display: flex; align-items: center; margin-bottom: 22px; }
+    /* Aulas online */
+    .online-row .platform-col {
+      text-align: center; margin-bottom:24px;
+    }
+    .platform-icon {
+      width: 60px; height: 60px; border-radius: 20px; margin-bottom:8px;
+      box-shadow:0 2px 10px #e0ecfa;
+      display:flex; align-items: center; justify-content: center;
+      background: #fff;
+      margin-left:auto; margin-right:auto;
+      transition: transform 0.17s;
+      font-size: 2.1rem;
+    }
+    .platform-col a:hover .platform-icon { transform: scale(1.13); }
+    .platform-label {font-weight:500;font-size:1.08rem;color:#1565c0;}
+    /* Login Modal */
+    #modal-login { display: none; position:fixed; top:0; left:0; z-index: 9999; width:100vw; height:100dvh; background: rgba(14,43,87,0.34); justify-content:center; align-items:center; }
+    #login-card { background: #fff; min-width:320px; max-width:390px; box-shadow: 0 8px 28px 2px #215caf44; border-radius: 16px; padding:38px 20px 22px 20px; position:relative; animation: modalSlideIn 0.7s; }
+    @keyframes modalSlideIn { from {transform:translateY(-70px) scale(0.93); opacity:0;} to {transform:translateY(0px) scale(1); opacity:1;} }
+    .close-btn { position:absolute; right:19px; top:20px; background:none; border:none; font-size: 1.4rem; color: #186bed; cursor:pointer; }
+    #login-card input { background: #f6faff; border-radius: 17px; border: 1.2px solid #c0d0e6; padding: 10px 12px; margin-bottom: 12px; outline:none; transition: border-color 0.2s, box-shadow 0.2s; }
+    #login-card input:focus { border-color: #1976d2; box-shadow:0 2px 12px #1565c034; background:#f2f7fd; }
+    #login-card button[type=submit]{ background: linear-gradient(90deg,#1565c0, #34a7ec 98%); color:#fff; border:0; border-radius:99px; width:100%; padding:10px; font-weight:600; margin-top:6px; transition: filter 0.15s; box-shadow:0 2px 12px #186bed34; }
+    #login-card button[type=submit]:hover{filter:brightness(1.14);}
+    #login-card .animated-lock{font-size:2.6rem; color:#1976d2;animation:rotate-lock 0.8s infinite alternate linear;display:flex;justify-content:center;}
+    @keyframes rotate-lock{from{transform:rotate(-14deg);}to{transform:rotate(7deg);}}
+    @media (max-width: 991px) {
+      .avatar-bg {
+        width: 140px;
+        height: 140px;
+        right: -10vw;
+        top: 20px;
+      }
+    }
+    @media (max-width: 600px) {
+      .main-banner { padding: 40px 0 18px 0; }
+      .avatar-bg { width: 80px; height: 80px; right: 6vw; top: 66px; }
+      .logo-text { font-size: 1.19rem; }
+      .logo-svg { width: 36px; height: 36px; }
+      .login-btn {right: 8px; top: 13px; font-size:0.93rem; padding:3.5px 13px;}
+    }
+  </style>
+</head>
+<body>
+  <!-- Banner principal -->
+  <button class="login-btn" onclick="openLoginModal()">Entrar</button>
+  <div class="main-banner">
+    <!-- Logotipo -->
+    <div class="ap-logo">
+      <div class="logo-svg">
+        <svg viewBox="0 0 50 50" width="42" height="42" fill="none">
+          <rect x="0" y="0" width="50" height="50" rx="14" fill="#1565c0"/>
+          <circle cx="25" cy="24" r="15" fill="#edf6ff"/>
+          <text x="25" y="31" text-anchor="middle" font-family="Segoe UI, Arial" font-size="19" font-weight="bold" fill="#1565c0">AP</text>
+        </svg>
+      </div>
+      <span class="logo-text">Ayrton Ponda</span>
+    </div>
+    <!-- Avatar decorativo -->
+    <div class="avatar-bg">
+      <svg width="220" height="210" viewBox="0 0 220 210" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="110" cy="105" rx="100" ry="95" fill="#fff"/>
+        <circle cx="110" cy="90" r="56" fill="#1976d2"/>
+        <ellipse cx="110" cy="172" rx="54" ry="28" fill="#1976d240"/>
+        <circle cx="110" cy="85" r="33" fill="#96caff"/>
+      </svg>
+    </div>
+    <h1 class="display-5 mb-2" style="margin-top: 0;">Mentoria em Programação & IA</h1>
+    <div class="animated-langs" id="langs-anim">
+      <span id="lang-type"></span>
+      <span class="langs-logos">
+        <i class="fab fa-python" title="Python"></i>
+        <i class="fab fa-java" title="Java"></i>
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" title="JavaScript"/>
+        <i class="fa-solid fa-brain" title="IA"></i>
+      </span>
+    </div>
+    <p class="lead mb-4">Desenvolva suas habilidades em Python, Java e Inteligência Artificial com orientação personalizada.</p>
+    <a href="#contato" class="btn btn-light btn-lg shadow">Agende uma sessão</a>
+    <div class="mt-4 social-links">
+      <a href="https://www.linkedin.com/" target="_blank"><i class="fab fa-linkedin"></i></a>
+      <a href="https://github.com/" target="_blank"><i class="fab fa-github"></i></a>
+      <a href="https://instagram.com/" target="_blank"><i class="fab fa-instagram"></i></a>
+    </div>
+  </div>
+
+  <!-- Modal Login -->
+  <div id="modal-login">
+    <div id="login-card">
+      <button class="close-btn" onclick="closeLoginModal()" aria-label="Fechar login">&times;</button>
+      <div class="animated-lock"><i class="fa-solid fa-lock"></i></div>
+      <h5 class="blue-title mb-3">Entrar na Mentoria</h5>
+      <form onsubmit="return fakeLogin(event)">
+        <input class="form-control mb-2" type="email" placeholder="Email" required />
+        <input class="form-control mb-1" type="password" placeholder="Senha" required />
+        <button type="submit">Entrar</button>
+        <div id="login-msg" class="mt-2"></div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Serviços -->
+  <section id="servicos" class="container">
+    <h2 class="blue-title mb-4">Serviços</h2>
+    <div class="services-row">
+      <div class="service-col"><span class="service-icon"><i class="fa-solid fa-chalkboard-user"></i></span>Mentoria individual personalizada</div>
+      <div class="service-col"><span class="service-icon"><i class="fa-solid fa-users"></i></span>Workshops e treinamentos em grupo</div>
+      <div class="service-col"><span class="service-icon"><i class="fa-solid fa-briefcase"></i></span>Consultoria para projetos profissionais</div>
+      <div class="service-col"><span class="service-icon"><i class="fa-solid fa-graduation-cap"></i></span>Acompanhamento para estudantes em TCC ou iniciação à IA</div>
+    </div>
+  </section>
+
+  <!-- Aulas online/plataformas -->
+  <section id="aulas-online" class="bg-light">
+    <div class="container">
+      <h2 class="blue-title mb-4">Aulas Online</h2>
+      <div class="row online-row justify-content-center">
+        <div class="col-6 col-sm-4 col-md-3 platform-col">
+          <a href="#" target="_blank">
+            <div class="platform-icon"><i class="fa-brands fa-zoom"></i></div>
+            <div class="platform-label">Zoom</div>
+          </a>
+        </div>
+        <div class="col-6 col-sm-4 col-md-3 platform-col">
+          <a href="#" target="_blank">
+            <div class="platform-icon"><i class="fa-brands fa-google"></i></div>
+            <div class="platform-label">Google Meet</div>
+          </a>
+        </div>
+        <div class="col-6 col-sm-4 col-md-3 platform-col">
+          <a href="#" target="_blank">
+            <div class="platform-icon"><i class="fa-brands fa-tiktok"></i></div>
+            <div class="platform-label">TikTok Live</div>
+          </a>
+        </div>
+        <div class="col-6 col-sm-4 col-md-3 platform-col">
+          <a href="#" target="_blank">
+            <div class="platform-icon"><i class="fa-brands fa-microsoft"></i></div>
+            <div class="platform-label">Microsoft Teams</div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sobre -->
+  <section id="sobre" class="container">
+    <h2 class="blue-title mb-3">Sobre mim</h2>
+    <p>Sou apaixonado por tecnologia e ensino! Com anos de experiência em Python, Java e Inteligência Artificial, já ajudei dezenas de estudantes e profissionais a conquistarem vagas, evoluir suas carreiras e vencer desafios reais do mercado. Minha missão é transformar conhecimento técnico em oportunidades para você.</p>
+  </section>
+
+  <!-- Mentorias / Cursos -->
+  <section id="cursos" class="bg-light">
+    <div class="container">
+      <h2 class="blue-title mb-4">Cursos & Trilhas de Mentoria</h2>
+      <div class="row g-4">
+        <div class="col-md-6 col-lg-3">
+          <div class="card h-100 border-0">
+            <div class="card-body">
+              <h5 class="card-title"><i class="fas fa-code"></i> Lógica de Programação</h5>
+              <p class="card-text">Fundamentos de lógica para iniciantes & intermediários. Aprenda a pensar como um programador.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="card h-100 border-0">
+            <div class="card-body">
+              <h5 class="card-title"><i class="fab fa-python"></i> Python Completo</h5>
+              <p class="card-text">De zero a projetos práticos, use Python para resolver problemas e automatizar tarefas.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="card h-100 border-0">
+            <div class="card-body">
+              <h5 class="card-title"><i class="fab fa-java"></i> Java Essencial</h5>
+              <p class="card-text">Aprenda do básico ao avançado em Java, uma das linguagens mais utilizadas no mercado de trabalho.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="card h-100 border-0">
+            <div class="card-body">
+              <h5 class="card-title"><i class="fa-solid fa-brain"></i> Inteligência Artificial</h5>
+              <p class="card-text">Introdução a IA, machine learning, casos reais, aplicação prática com Python e ferramentas modernas.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Depoimentos -->
+  <section id="depoimentos" class="container">
+    <h2 class="blue-title mb-4">Depoimentos</h2>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="card p-3 h-100 border-0">
+          <div class="card-body">
+            <p>“A mentoria com o Ayrton foi um divisor de águas! Hoje consigo criar projetos reais com confiança.”</p>
+            <div class="fw-bold">Joana M., Desenvolvedora Júnior</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card p-3 h-100 border-0">
+          <div class="card-body">
+            <p>“O conteúdo de IA é claro, aplicável e prático. Recomendo para todos que querem sair do zero!”</p>
+            <div class="fw-bold">Carlos D., Analista de Dados</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card p-3 h-100 border-0">
+          <div class="card-body">
+            <p>“Python não era mais um bicho de sete cabeças depois dessa mentoria. A metodologia faz muita diferença!”</p>
+            <div class="fw-bold">Marina L., Estudante</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contato -->
+  <section id="contato" class="bg-light">
+    <div class="container">
+      <h2 class="blue-title mb-4">Contato</h2>
+      <form class="row g-3" onsubmit="return enviarFormulario(event)">
+        <div class="col-md-6">
+          <input type="text" class="form-control" placeholder="Seu nome" required>
+        </div>
+        <div class="col-md-6">
+          <input type="email" class="form-control" placeholder="Seu email" required>
+        </div>
+        <div class="col-12">
+          <textarea class="form-control" rows="4" placeholder="Como posso ajudar?" required></textarea>
+        </div>
+        <div class="col-12">
+          <button type="submit" class="btn btn-primary px-5">Enviar</button>
+        </div>
+        <div id="msg-envio" class="mt-2"></div>
+      </form>
+    </div>
+  </section>
+
+  <!-- Rodapé -->
+  <footer class="text-center py-4 mt-3 text-secondary">
+    &copy; 2025 Ayrton Ponda · Mentoria em Programação & IA
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Animação rotativa de linguagens
+    const langs = ['Python', 'Java', 'JavaScript', 'IA', 'Machine Learning'];
+    let langIdx = 0, animTimeout;
+    function typeNextLang() {
+      const el = document.getElementById('lang-type');
+      if(!el) return;
+      let show = langs[langIdx];
+      // Efeito de digitação
+      el.textContent = '';
+      let i = 0;
+      function typer() {
+        if(i < show.length){ el.textContent += show[i++]; setTimeout(typer, 75); }
+        else { animTimeout = setTimeout(()=>{ langIdx = (langIdx+1)%langs.length; typeNextLang(); }, 1100); }
+      }
+      typer();
+    }
+    typeNextLang();
+    // Modal de Login
+    function openLoginModal(){ document.getElementById('modal-login').style.display = 'flex'; }
+    function closeLoginModal(){ document.getElementById('modal-login').style.display = 'none'; document.getElementById('login-msg').innerHTML=''; }
+    function fakeLogin(e){
+      e.preventDefault();
+      document.getElementById('login-msg').innerHTML = '<span class="text-success">Login simulado! Bem-vindo(a) à mentoria.</span>';
+      setTimeout(closeLoginModal, 1600);
+      return false;
+    }
+    // Mensagem contato
+    function enviarFormulario(e) {
+      e.preventDefault();
+      document.getElementById('msg-envio').innerHTML = '<span class="text-success">Mensagem enviada com sucesso! Retornarei em breve.</span>';
+      return false;
+    }
+    // Fechar modal ao clicar fora
+    window.onclick = function(event){
+      const modal = document.getElementById('modal-login');
+      if(event.target === modal){ closeLoginModal(); }
+    };
+  </script>
+</body>
+</html>
